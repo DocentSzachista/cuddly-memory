@@ -20,7 +20,7 @@ def scrap_webpage(url):
         places = [ int(x) for x in wolne_miejsca.text.split("/")]
 
 
-        if places[0] != 0 or places[1] != 1 :
+        if places[0] != 0 or places[1] != 0 :
             info = f" {data[0]} Wolne miejsca Kobiety: {places[0]}, Faceci: {places[1]}"
             to_return.append(info)
         else:
