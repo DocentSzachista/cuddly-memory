@@ -2,7 +2,7 @@ name: Run Script on Schedule
 
 on:
   schedule:
-    - cron: '0 7-18/2 * * *'
+    - cron: '*/2 * * * *'
 
 jobs:
   run-script:
@@ -24,4 +24,5 @@ jobs:
 
       - name: Run script
         run: |
-          python main.py
+          res=$(python main.py)
+          echo "$res"
