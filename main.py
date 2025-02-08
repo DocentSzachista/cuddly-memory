@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 
 
-def scrap_webpage(url):
+def get_group_place_webpage(url):
     page = requests.get(url)
 
     soup = BeautifulSoup(page.content, "html.parser")
@@ -27,11 +27,31 @@ def scrap_webpage(url):
             continue
     return to_return
 
+
+def find_buttons(url):
+    page = requests.get(url)
+
+    soupl = BeautifulSoup(page.content, "html.parser")
+    buttons = soupl.find("div", class_="form-block form-space text-center")
+    return buttons.text.replace("\n", "").replace(" ", "")
+
+def find_table(url):
+    page = requests.get(url)
+    soup = BeautifulSoup(page.content, "html.parser")
+    table = soup.find("table", class_="table table-hover")
+    if table:
+        if len(table.text) > 40:
+            # Jest
+            return "Jest tabelka"
+    return ""
+
 if __name__ == "__main__":
-    url = "https://kursant.nolimits.net.pl/activity/view?id=f8467607c9a12f11"
-    content  = scrap_webpage(url)
-    if len(content) == 0:
+    url = "https://kursant.nolimits.net.pl/activity/view?id=f8467607d800b994"
+    # content  = get_group_place_webpage(url)
+    guziki = find_buttons(url)
+    tabela = find_table(url)
+    if len(guziki) == 0 and len(tabela) == 0:
         raise ValueError("Nic nie znaleziono")
     else:
-        for instance in content:
+        for instance in [guziki, tabela]:
             print(instance)
